@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/webrtc-room-demo/login/login",
+    "pages/webrtc-room-demo/room/room"
+  ],
+  "networkTimeout": {
+    "request": 60000
+  },
+  "window": {
+    "backgroundColor": "#FFFFFF",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F9F9F9",
+    "navigationBarTitleText": "好视通云通信",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
+}

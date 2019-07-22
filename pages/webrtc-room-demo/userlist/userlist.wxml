@@ -1,0 +1,18 @@
+<view class="container-box">
+  <view class="search">
+    <input type="search"></input>
+    input
+  </view>
+  <view class="user-list">
+    <view class="user" wx:for="{{userList}}" :key="item">
+      <view class="info">
+        <image src="/pages/Resources/list/avatar.png" class="avatar" />
+        <text>{{item.name}}</text>
+      </view>
+      <view class="state">
+        <image src="/pages/Resources/list/{{item.audio ? 'audio' : 'audio-gray'}}.png" />
+        <image src="/pages/Resources/list/{{item.video ? 'video' : 'video-gray'}}.png" />
+      </view>
+    </view>
+  </view>
+</view>

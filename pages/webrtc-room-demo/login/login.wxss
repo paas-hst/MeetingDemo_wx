@@ -1,0 +1,115 @@
+.container-box {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+}
+
+.header-image {
+  padding: 0 195rpx;
+  margin: 80rpx 0 80rpx 0;
+  text-align: center;
+}
+
+.header-image image {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.section input {
+  width: 580rpx;
+  height: 40rpx;
+  padding: 21rpx 40rpx 19rpx;
+  margin: 0 45rpx 30rpx 45rpx;
+  background: rgba(235, 238, 242, 1);
+  opacity: 0.5;
+}
+
+.section input,
+.section .placeholderStyle {
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  line-height: 80px;
+}
+
+.section .placeholderStyle {
+  color: rgba(186, 190, 203, 1);
+}
+
+.btn-area button {
+  width: 660rpx;
+  height: 100rpx;
+  background: rgba(106, 125, 254, 1);
+  box-shadow: 0rpx 10rpx 20rpx 0rpx rgba(36, 49, 218, 0.3);
+  border-radius: 60rpx;
+  font-size: 34rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 100rpx;
+}
+
+.setting image {
+  position: fixed;
+  margin: 0 auto;
+  width: 80rpx;
+  height: 80rpx;
+  bottom: 28rpx;
+  left: 0;
+  right: 0;
+}
+
+.setting-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+  padding: 20rpx 54rpx;
+  border-bottom: 1rpx solid rgba(242, 242, 242, 1);
+}
+
+.setting-section input,
+.setting-section view {
+  display: inline-block;
+}
+
+.setting-section .setting-title {
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  font-weight:400;
+  color:rgba(0, 0, 0, 0.45);
+  line-height:80rpx;
+  white-space: nowrap;
+}
+
+.setting-section input {
+  width: 480rpx;
+  font-size: 24rpx;
+  font-family:PingFangSC-Regular;
+  font-weight:400;
+  color:rgba(0, 0, 0, 0.85);
+  line-height: 80rpx;
+  margin-left: 20rpx;
+}
+
+.setting-btn {
+  position: fixed;
+  bottom: 50rpx;
+  left: 45rpx;
+  right: 45rpx;
+}
+
+.setting-btn button {
+  background: rgba(106, 125, 254, 1);
+  box-shadow: 0rpx 10rpx 20rpx 0rpx rgba(36, 49, 218, 0.3);
+  border-radius: 60rpx;
+  font-size: 34rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 100rpx;
+}
+
+.setting-btn button:first-child {
+  margin-bottom: 10rpx;
+}

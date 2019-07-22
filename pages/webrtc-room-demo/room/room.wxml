@@ -1,0 +1,68 @@
+<!-- <view class="container-box" style='padding-top:calc(5vw + {{headerHeight}}px)'> -->
+<!-- <view class="container-box">
+  <view class="camera-box">
+    <webrtc-room id="webrtcroom" template="{{template}}" autoplay="{{autoplay}}" enableCamera="{{enableCamera}}" roomID="{{roomID}}" roomName="{{roomName}}" userID="{{serverUserID}}" roomCreator="{{roomCreator}}" userSig="{{userSig}}" sdkAppID="{{sdkAppID}}" accountType="{{accountType}}" privateMapKey="{{privateMapKey}}" beauty="{{beauty}}" muted="{{muted}}" debug="{{debug}}" bindRoomEvent="onRoomEvent" bindIMEvent="onIMEvent" enableIM="{{false}}">
+      <cover-view wx:if="{{template == 'grid'}}" slot="grid" style='height:100%;width:100%;position: absolute;'>
+        <cover-view class="operate">
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/camera{{frontCamera?"":"-gray"}}.png' bindtap="changeCamera"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{beauty > 0? "beauty" : "beauty-dis"}}.png' bindtap="setBeauty"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{muted ? "mic-dis" : "mic"}}.png' bindtap="changeMute"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{openCamera? "log" : "log2"}}.png' bindtap="openCamera"></cover-image>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+      <cover-view wx:elif="{{template == 'float'}}" slot="float" style='height:100%;width:100%;position: absolute;'>
+        <cover-view class="operate">
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/camera{{frontCamera?"":"-gray"}}.png' bindtap="changeCamera"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{beauty > 0? "beauty" : "beauty-dis"}}.png' bindtap="setBeauty"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{muted ? "mic-dis" : "mic"}}.png' bindtap="changeMute"></cover-image>
+          </cover-view>
+          <cover-view class='img-box'>
+            <cover-image class='img-view' src='/pages/Resources/{{openCamera? "log" : "log2"}}.png' bindtap="openCamera"></cover-image>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+    </webrtc-room>
+  </view>
+</view> -->
+
+<view class="container-box">
+  <view class="camera-box">
+    <webrtc-room id="webrtcroom" template="{{template}}" autoplay="{{autoplay}}" enableCamera="{{enableCamera}}" roomID="{{roomID}}" roomName="{{roomName}}" userID="{{serverUserID}}" roomCreator="{{roomCreator}}" userSig="{{userSig}}" sdkAppID="{{sdkAppID}}" accountType="{{accountType}}" privateMapKey="{{privateMapKey}}" beauty="{{beauty}}" muted="{{muted}}" debug="{{debug}}" bindRoomEvent="onRoomEvent" bindIMEvent="onIMEvent" enableIM="{{false}}">
+    </webrtc-room>
+  </view>
+  <view class="btn-group">
+    <view class="section {{muted ? '' : 'active'}}"  bindtap="changeMute">
+      <image src='/pages/Resources/room/{{muted ? "audio-gray" : "audio"}}.png' />
+      <text>麦克风</text>
+    </view>
+    <view class="section {{enableCamera ? 'active' : ''}}"  bindtap="openCamera">
+      <image src='/pages/Resources/room/{{enableCamera ? "video" : "video-gray"}}.png' />
+      <text>摄像头</text>
+    </view>
+    <view class="section {{frontCamera ? 'active' : ''}}" bindtap="changeCamera">
+      <image src='/pages/Resources/room/{{frontCamera ? "change" : "change-gray"}}.png' />
+      <text>切换摄像头</text>
+    </view>
+    <!-- <view class="section"  bindtap="showUserList">
+      <image src="/pages/Resources/room/mine-gray.png" />
+      <text>参会人</text>
+    </view>
+    <view class="section" bindtap="goChat">
+      <image src="/pages/Resources/room/talk-gray.png" />
+      <text>聊天</text>
+    </view> -->
+  </view>
+</view>

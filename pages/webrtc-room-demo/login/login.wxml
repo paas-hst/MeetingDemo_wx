@@ -1,0 +1,42 @@
+<view wx:if="{{!showSetting}}" class="container-box">
+  <view class="header-image">
+    <image src="../../Resources/login/header.svg" />
+  </view>
+  <form bindsubmit="joinGroup">
+    <view class="section">
+      <input type="text"  bindinput="bindGroupIDInput" value="{{groupID}}" placeholder="请输入Group ID"  placeholder-class="placeholderStyle" />
+    </view>
+    <view class="section">
+      <input type="text" bindinput="bindUserIDInput" value="{{userID}}" placeholder="请输入User ID"  placeholder-class="placeholderStyle" />
+    </view>
+    <view class="btn-area">
+      <button form-type="submit">加入分组</button>
+    </view>
+  </form>
+  <view class="setting" bindtap="switchSetting">
+    <image src="../../Resources/login/setting.png" />
+  </view>
+</view>
+
+<view wx:else="{{showSetting}}" class="container-box">
+  <view class="setting-section">
+    <view class="setting-title">App ID</view>
+    <input type="text"  bindinput="bindAppIDInput" value='{{appID}}' auto-focus />
+  </view>
+  <view class="setting-section">
+    <view class="setting-title">App secret</view>
+    <input type="text"  bindinput="bindAppSecretInput" value="{{appSecret}}" />
+  </view>
+  <view class="setting-section">
+    <view style="font-size: 28rpx;" class="setting-title">使用默认服务器配置</view>
+    <switch bindchange="bindDefault" checked="{{isDefault}}" />
+  </view>
+  <view wx:if="{{!isDefault}}" class="setting-section">
+    <view class="setting-title">Server Address</view>
+    <input type="text" bindinput="bindAddressInput" value="{{address}}" />
+  </view>
+  <view class="setting-btn">
+    <button  bindtap="storeSetting">获取授权</button>
+    <!-- <button bindtap="goBack">返回</button> -->
+  </view>
+</view>
