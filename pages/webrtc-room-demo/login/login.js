@@ -1,3 +1,5 @@
+import HstWxEngine from "../../../lib/HstWxEngine";
+
 const app = getApp();
 
 Page({
@@ -9,12 +11,6 @@ Page({
     userID: '',
     reUserID: '',
     userName: '',
-    // 测试用
-    // appID: '3469909bef2db37378b42fdad85b7fb6',
-    // appSecret: '566db907b5baf88c',
-    // 线上用
-    // appID: '925aa51ebf829d49fc98b2fca5d963bc',
-    // appSecret: 'd52be60bb810d17e',
     appID: '',
     appSecret: '',
     token: '',
@@ -30,10 +26,19 @@ Page({
     console.log('登录页onLoad');
 
     let self = this
-
-    self.getRoomList() // 先拉一下房间列表
-
-    self.initSetting() // 初始化引擎，获取登录权限
+    let is_private = 0
+    wx.request({
+      url: 'https://access.paas.hst.com/server/address?appType=2',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: function (res) {
+        console.log('res', res);
+        app.$hstEngine = new HstWxEngine(res.data.result)
+        self.getRoomList() // 先拉一下房间列表
+        self.initSetting() // 初始化引擎，获取登录权限
+      }
+    })
   },
 
   joinGroup() {
@@ -81,11 +86,6 @@ Page({
 
     let roomIndex = this.isRoomIDExists(self.data.groupID)
     if (roomIndex === -1) {
-      // wx.showToast({
-      // 	title : '房间号不存在',
-      // 	icon : 'none',
-      // 	duration: 2000
-      // })
       self.setData({
         isCreate: true
       })
