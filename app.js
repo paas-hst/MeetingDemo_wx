@@ -7,14 +7,13 @@ App({
 
     // 引擎初始化
     wx.request({
-      // url: 'https://access.paas.haoshitong.com/server/address?appType=2',
       url: 'https://access.paas.hst.com/server/address?appType=2',
       header: {
         'Content-Type': 'application/json'
       },
       success: function (res) {
         console.log('res', res);
-        self.$hstEngine = new HstWxEngine('wss://testwebrtc.haoshitong.com:50001')
+        self.$hstEngine = new HstWxEngine(res.data.result)
       }
     })
 
