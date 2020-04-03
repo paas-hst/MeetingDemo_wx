@@ -28,7 +28,7 @@ Page({
     let self = this
     let is_private = 0
     wx.request({
-      url: 'https://access.paas.hst.com/server/address?appType=2',
+      url: 'https://access.paas.hst.com/server/address?appType=15',
       header: {
         'Content-Type': 'application/json'
       },

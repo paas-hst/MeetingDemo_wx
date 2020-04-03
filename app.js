@@ -7,7 +7,7 @@ App({
 
     // 引擎初始化
     wx.request({
-      url: 'https://access.paas.hst.com/server/address?appType=2',
+      url: 'https://access.paas.hst.com/server/address?appType=15',
       header: {
         'Content-Type': 'application/json'
       },
