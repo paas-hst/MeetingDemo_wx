@@ -1,0 +1,64 @@
+.player1.videoview {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.player1 .player-box {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 92vh;
+  text-align: center;
+  vertical-align: top;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("https://resource-paas.hst.com/camera_bg.png")
+}
+
+.player1 .pusher-box {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  width: 0vw;
+  height: 0vh;
+}
+
+.player1 .player-box .player-item {
+  width: 100%;
+  height: 100%;
+}
+
+.player1 live-player {
+  width: 100%;
+  height: 100%;
+}
+
+.player1 .character {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 16px;
+  color: #999;
+  width: 100%;
+  height: 10vw;
+  line-height: 10vw;
+  text-align: left;
+}
+
+.player1 .loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.player1 .loading cover-image {
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+  width: 30px;
+  height: 30px;
+}

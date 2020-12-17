@@ -1,0 +1,175 @@
+<view class="container-box">
+  <!-- 视频窗口 -->
+  <view class="camera-box" hidden='{{!selectVideo}}'>
+    <webrtc-room 
+      id="webrtcroom" 
+      template="{{template}}" 
+      autoplay="{{autoplay}}" 
+      enableCamera="{{enableCamera}}" 
+      roomID="{{txRoomId}}" 
+      roomName="{{roomName}}" 
+      userID="{{serverUserId}}" 
+      roomCreator="{{roomCreator}}" 
+      userSig="{{userSig}}" 
+      sdkAppID="{{sdkAppId}}" 
+      accountType="{{accountType}}" 
+      privateMapKey="{{privateMapKey}}" 
+      beauty="{{beauty}}" 
+      muted="{{muted}}" 
+      debug="{{debug}}" 
+      bindRoomEvent="onRoomEvent" 
+      bindIMEvent="onIMEvent" 
+      enableIM="{{false}}">
+    </webrtc-room>
+  </view>
+  <!-- 白板窗口 100vw:84:vh-->
+  <view hidden='{{!selectWhiteBoard}}'>
+    <view class="board-title">
+      <view wx:if="{{boardList.length > 0}}" class='mode-select'>
+        <view class='select-text' bindtap='showModeSelection'>
+          <text>{{selectMode}}</text>
+        </view>
+        <cover-view class="select-box" wx:if="{{selectOpen}}">
+          <cover-view class="select-item" bindtap="selectDbwzMode">等比完整</cover-view>
+          <cover-view class="select-item" bindtap="selectDbsyMode">等比适应</cover-view>
+          <cover-view class="select-item" bindtap="selectDbsfMode">等比缩放</cover-view>
+        </cover-view>
+      </view>
+      <view wx:if="{{boardList.length > 0}}" class="board-name">
+        <text class="board-name">{{curBoardName}}</text>
+      </view>
+      <view wx:if="{{boardList.length > 0}}">
+        <button type="default" class="board-switch" bindtap="onNextWhiteBoard">切换</button>
+      </view>
+    </view>
+    <scroll-view wx:if='{{selectWhiteBoard}}' id="canvas-view" class="board-content" scroll-y="true" scroll-x="true">
+      <canvas 
+        id="my-canvas" 
+        type="2d"
+        bindtouchstart="onCanvasTouchStart" 
+        bindtouchmove="onCanvasTouchMove" 
+        bindtouchend="onCanvasTouchEnd" 
+        style="background-color:white; width:{{canvasWidth}}px; height:{{canvasHeight}}px; left:{{canvasLeft}}px; top:{{canvasTop}}px">
+      </canvas>
+    </scroll-view>
+    <view class="board-footer">
+      <text class="board-footer-text" wx:if="{{boardList.length > 0}}">第{{curBoardPageNo}}页/共{{curBoardTotalPage}}页 | 第{{curBoardIndex + 1}}个/共{{totalBoardCount}}个</text>
+    </view>
+  </view>
+  <!-- 用户列表 -->
+  <view hidden='{{!selectUserList}}'>
+    <scroll-view class="group-user-scroll" scroll-y="true">
+      <block wx:for="{{groupUserList}}" wx:for-item="user" wx:key="userId">
+        <view class="online-item">
+          <view style="display:flex">
+            <view><image class="group-user-icon" mode="aspectFit" src="/resources/list/avatar.png" /></view>
+            <view style="padding-left:10px">{{user.userId}}</view>
+          </view>
+          <view style="display:flex">
+            <view>
+              <image 
+                class="group-user-media" 
+                mode="aspectFit" 
+                src="/resources/room/{{user.audio ? 'pub-aud.png' : 'unpub-aud.png'}}" 
+              />
+            </view>
+            <view>
+              <image 
+                class="group-user-media" 
+                mode="aspectFit" 
+                src="/resources/room/{{user.video ? 'pub-cam.png' : 'unpub-cam.png'}}" 
+              />
+            </view>
+            <view>
+              <image 
+                class="group-user-media" 
+                mode="aspectFit" 
+                src="/resources/room/{{user.share ? 'pub-share.png' : 'unpub-share.png'}}" 
+              />
+            </view>
+            <view>
+              <image 
+                class="group-user-media" 
+                mode="aspectFit" 
+                src="/resources/room/{{user.board ? 'pub-board.png' : 'unpub-board.png'}}" 
+              />
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view> 
+  </view>
+  <!-- 聊天窗口 -->
+  <view hidden='{{!selectChatMsg}}' style="height: 92vh">
+    <view style="height:84vh">
+      <scroll-view scroll-y scroll-into-view='{{toView}}' class="msg-scroll">
+        <block wx:for='{{groupMsgList}}' wx:for-index="index" wx:key="srcUserId">
+          <!-- 远端消息（左） -->
+          <view wx:if='{{item.srcUserId != userId}}' id='msg-{{index}}' class="left-msg-view">
+            <view>
+              <image class="left-msg-image" src='/resources/list/avatar.png'></image>
+            </view>            
+            <view class='left-msg-content'>
+              <block wx:if="{{item.dstUserId != 'all'}}">
+                <view>{{item.time}} {{item.srcUserId}} 对 我 说：</view>
+              </block>
+              <block wx:else>
+                <view>{{item.time}} {{item.srcUserId}} 对 大家 说：</view>
+              </block>
+              <view>{{item.content}}</view>
+            </view>
+          </view>
+          <!-- 本端消息（右） -->
+          <view wx:else id='msg-{{index}}' class="right-msg-view">
+            <view class='right-msg'>
+              <block wx:if="{{item.dstUserId != 'all'}}">
+                <view>{{item.time}} 我 对 {{item.dstUserId}} 说：</view>
+              </block>
+              <block wx:else>
+                <view>{{item.time}} 我 对 大家 说：</view>
+              </block>
+              <view>{{item.content}}</view>
+            </view>
+            <view>
+              <image class="right-msg-image" src='/resources/list/avatar.png'></image>
+            </view>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+    <view class='send-msg'>
+      <view wx:if="{{active}}" class="chat-select-wrapper">
+        <select id="chat-select" options="{{groupUserList}}" key="userId" text="userId" bind:change="onSelectUser"></select>
+      </view>
+      <input adjust-position='{{false}}' value='{{sendMsg}}' bindinput="bindSendMsgInput"></input>
+      <button class="send-msg-btn" bindtap="sendGroupMsg">发送</button>
+    </view>
+  </view>
+  <!-- 底部工具栏 -->
+  <view class="btn-group">
+    <view class="section {{muted ? '' : 'active'}}"  bindtap="changeMute">
+      <image src='/resources/room/{{muted ? "audio-gray" : "audio"}}.png' />
+      <text>麦克风</text>
+    </view>
+    <view class="section {{enableCamera ? 'active' : ''}}"  bindtap="openCamera">
+      <image src='/resources/room/{{enableCamera ? "video" : "video-gray"}}.png' />
+      <text>摄像头</text>
+    </view>
+    <view class="section {{frontCamera ? 'active' : ''}}" bindtap="switchCamera">
+      <image src='/resources/room/{{frontCamera ? "change" : "change-gray"}}.png' />
+      <text>切换摄像头</text>
+    </view>
+    <view class="section {{selectWhiteBoard ? 'active' : ''}}" bindtap="showWhiteBoard">
+      <image src="/resources/room/{{selectWhiteBoard ? 'white-board-share' : 'white-board-share-gray'}}.png" />
+      <text>白板</text>
+    </view>
+    <view class="section {{selectUserList ? 'active' : ''}}"  bindtap="showUserList">
+      <image src="/resources/room/{{selectUserList ? 'mine' : 'mine-gray'}}.png" />
+      <text>参会人</text>
+    </view>
+    <view class="section {{selectChatMsg ? 'active' : ''}}" bindtap="showChatMsg">
+      <image src="/resources/room/{{selectChatMsg ? 'talk' : 'talk-gray'}}.png" />
+      <text>聊天</text>
+    </view>
+  </view>
+</view>

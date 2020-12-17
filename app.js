@@ -1,21 +1,12 @@
-import HstWxEngine from "./lib/HstWxEngine";
+const HstWxRtcEngine = require("./lib/HstWxRtcEngine")
 
 //app.js
 App({
+  /**
+   * 生命周期函数--监听App加载
+   */
   onLaunch: function () {
     var self = this
-
-    // 引擎初始化
-    wx.request({
-      url: 'https://access.paas.hst.com/server/address?appType=15',
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: function (res) {
-        console.log('res', res);
-        self.$hstEngine = new HstWxEngine(res.data.result)
-      }
-    })
 
     // 登录
     wx.login({
@@ -58,19 +49,6 @@ App({
           icon: 'none',
           duration: 2500
         });
-        // wx.showModal({
-        //   title: '提示',
-        //   content: '网络连接中断，请重新连接',
-        //   confirmText: '返回',
-        //   showCancel: false,
-        //   success(res) {
-        //     if (res.confirm) {
-        //       wx.reLaunch({
-        //         url: 'pages/webrtc-room-demo/login/login'
-        //       })
-        //     }
-        //   }
-        // })
       } else {
         wx.showToast({
           title: '网络类型发生变化，当前网络类型：' + res.networkType,
@@ -78,40 +56,59 @@ App({
           duration: 2500
         });
       }
-    })
-
+    })    
   },
 
+  /**
+   * 生命周期函数--监听App显示
+   */
   onShow() {
-    let self = this
     console.log('app show');
-    if (self.$hstEngine) {
-      self.$hstEngine.ws.connectSocket()
-      let info = wx.getStorageSync('loginInfo')
-      console.log('info', info);
-      self.$hstEngine.getAuthentication(info.appID, info.token, function () {
-        console.log('获取权限成功');
-      })
 
-    }
+    // 创建RTC引擎
+    this.hstRtcEngine = new HstWxRtcEngine();
+    this.hstRtcEngine.init().then(()=>{
+      console.log("Init rtc engine success.")
+    }).catch(()=>{
+      console.warn("Init rtc engine failed!")
+    })
   },
 
+  /**
+   * 生命周期函数--监听App隐藏
+   */
   onHide() {
-    let self = this
     console.log('app hide');
-    if (self.$hstEngine) {
-      self.$hstEngine.ws.closeSocket()
-
-    }
   },
 
-  $hstEngine: null,
+  // 好视通RTC引擎
+  hstRtcEngine: null,
+  
+  // 好视通相关数据
+  hstData: {
+    appId: null,
+    appSecret: null,
+    userId: null,
+    groupId: null,
+    srvAddress: null
+  },
 
+  // 腾讯相关数据
+  txData: {
+    roomId: null,
+    serverRoomId: null,
+    userSig: null,
+    sdkAppId: null,
+    accountType: null,
+    privateMapKey: null,
+  },
+
+  // 小程序相关数据
   globalData: {
     userInfo: null,
     network: {
       isConnected: false,
-      type: 'none',
+      type: 'none'
     }
   }
 })

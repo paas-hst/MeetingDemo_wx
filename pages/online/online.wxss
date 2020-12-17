@@ -1,0 +1,91 @@
+.container-box {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.section input {
+  width: 580rpx;
+  height: 40rpx;
+  padding: 21rpx 40rpx 19rpx;
+  margin: 0 45rpx 30rpx 45rpx;
+  background: rgba(235, 238, 242, 1);
+  opacity: 0.5;
+}
+
+.section input,
+.section .placeholderStyle {
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  line-height: 80px;
+}
+
+.section .placeholderStyle {
+  color: rgba(186, 190, 203, 1);
+}
+
+.btn-area button {
+  width: 660rpx;
+  height: 100rpx;
+  background: rgba(106, 125, 254, 1);
+  box-shadow: 0rpx 10rpx 20rpx 0rpx rgba(36, 49, 218, 0.3);
+  border-radius: 60rpx;
+  font-size: 34rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 100rpx;
+}
+
+.online-item {
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #dadada;
+  justify-content: space-between;
+  padding-left: 5px;
+  padding-right: 15px;
+  font-size: 32rpx;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.online-title {
+  margin-top:10px; 
+  display:flex; 
+  justify-content:center;
+  height: 10vh;
+}
+
+.online-scroll {
+  width: 640rpx; 
+  margin: 0px auto;
+  height: 65vh;
+}
+
+.online-form {
+  position:fixed; 
+  bottom:0px;
+  height: 25vh;
+}
+
+.join-btn {
+  bottom:10px; 
+  display:flex; 
+  justify-content:center
+}
+
+.user-image {
+  height:24px; 
+  width:24px
+}
+
+.online-user-item {
+  width:34vw; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; 
+  padding-right: 4px
+}

@@ -1,0 +1,25 @@
+<template name="1pushertemplate">
+  <view class="pusher1 videoview">
+    <view class="pusher-box">
+      <live-pusher 
+        id="rtcpusher" 
+        autopush
+        mode="RTC" 
+        url="{{pushURL}}" 
+        aspect="{{aspect}}" 
+        min-bitrate="{{minBitrate}}" 
+        max-bitrate="{{maxBitrate}}" 
+        audio-quality="high" 
+        beauty="{{beauty}}" 
+        muted="{{muted}}" 
+        enable-camera="{{enableCamera}}" 
+        background-mute="{{true}}" 
+        debug="{{debug}}" 
+        bindstatechange="onPush" 
+        binderror="onError" 
+        waiting-image="https://www.fc18.com.cn/ymmopenapi/sgw/content/fileResource/560890228">
+        <slot name="float"></slot>
+      </live-pusher>
+    </view>
+  </view>
+</template>

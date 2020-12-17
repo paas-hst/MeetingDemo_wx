@@ -1,0 +1,13 @@
+.conponent-box {
+  background-repeat:no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+@import "/app.wxss";
+@import "./grid4template/grid4template.wxss";
+@import "./grid6template/grid6template.wxss";
+@import "./1v1template/1v1template.wxss";
+@import "./1pushertemplate/1pushertemplate.wxss";
+@import "./1playertemplate/1playertemplate.wxss";

@@ -1,0 +1,16 @@
+<view class="select-box">
+  <view class="select-current" catchtap="openClose">
+    <text class="current-name">{{current.name}}</text>
+  </view>
+  <view class="option-list" wx:if="{{isShow}}" catchtap="optionTap">
+    <text class="option"
+      wx:for="{{result}}"
+      wx:for-item="user"
+      wx:key="id"
+      data-id="{{user.id}}"
+      data-name="{{user.name}}">{{user.name}}</text>
+    <text class="option"
+      data-id="{{defaultOption.id}}"
+      data-name="{{defaultOption.name}}">{{defaultOption.name}}</text>
+  </view>
+</view>

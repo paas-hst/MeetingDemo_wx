@@ -1,0 +1,57 @@
+<view wx:if="{{!showSetting}}" class="container-box">
+  <view class="header-image">
+    <image src="/resources/login/header.svg" />
+  </view>
+  <form bindsubmit="login">
+    <view class="section">
+      <input 
+        type="text" 
+        bindinput="bindUserIDInput" 
+        value="{{userId}}" 
+        placeholder="请输入User ID"  
+        placeholder-class="placeholderStyle" 
+      />
+    </view>
+    <view class="section">
+      <input 
+        type="text"  
+        bindinput="bindNickNameInput" 
+        value="{{nickName}}" 
+        placeholder="请输入昵称"  
+        placeholder-class="placeholderStyle" 
+      />
+    </view>
+    <view class="btn-area">
+      <button form-type="submit">登录</button>
+    </view>
+  </form>
+  <view class="setting" bindtap="switchSetting">
+    <image src="/resources/login/setting.png" />
+  </view>
+</view>
+
+<view wx:else="{{showSetting}}" class="container-box">
+  <view class="setting-section">
+    <view style="font-size: 28rpx;" class="setting-title">使用默认APP配置</view>
+    <switch bindchange="bindAppDefault" checked="{{isAppDefault}}" />
+  </view>
+  <view wx:if="{{!isAppDefault}}" class="setting-section">
+    <view class="setting-title">App ID</view>
+    <input type="text"  bindinput="bindAppIDInput" value='{{appId}}' auto-focus />
+  </view>
+  <view wx:if="{{!isAppDefault}}" class="setting-section">
+    <view class="setting-title">App secret</view>
+    <input type="text"  bindinput="bindAppSecretInput" value="{{appSecret}}" />
+  </view>
+  <view class="setting-section">
+    <view style="font-size: 28rpx;" class="setting-title">使用默认服务器配置</view>
+    <switch bindchange="bindSrvDefault" checked="{{isSrvDefault}}" />
+  </view>
+  <view wx:if="{{!isSrvDefault}}" class="setting-section">
+    <view class="setting-title">Server Address</view>
+    <input type="text" bindinput="bindAddressInput" value="{{srvAddress}}" />
+  </view>
+  <view class="setting-btn">
+    <button bindtap="confirmSetting">确定</button>
+  </view>
+</view>

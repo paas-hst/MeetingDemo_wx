@@ -1,0 +1,23 @@
+<import src='./grid4template/grid4template.wxml' />
+<import src='./grid6template/grid6template.wxml' />
+<import src="./1v1template/1v1template.wxml" />
+<import src="./1pushertemplate/1pushertemplate.wxml" />
+<import src="./1playertemplate/1playertemplate.wxml" />
+
+<view class='conponent-box'>
+  <block wx:if="{{template == '1v1'}}">
+    <template is='1v1template' data="{{pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, enableCamera, muted, debug, members, creator, isCaster, presenter, audience, autoplay, playerMutedStatus, playerVideoStatus,roomName,headerHeight,statusBarHeight}}" />
+  </block>
+  <block wx:elif="{{template == 'grid4'}}">
+    <template is='grid4template' data="{{pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, enableCamera, muted, debug, members, creator, isCaster, presenter, audience, autoplay, playerMutedStatus, playerVideoStatus,roomName,headerHeight,statusBarHeight}}" />
+  </block>
+  <block wx:elif="{{template == 'grid6'}}">
+    <template is='grid6template' data="{{pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, enableCamera, muted, debug, members, creator, isCaster, presenter, audience, autoplay, playerMutedStatus, playerVideoStatus,roomName,headerHeight,statusBarHeight}}" />
+  </block>
+  <block wx:elif="{{template == '1pusher'}}">
+    <template is='1pushertemplate' data="{{pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, enableCamera, muted, debug, members, creator, isCaster, presenter, audience, autoplay, playerMutedStatus, playerVideoStatus,roomName,headerHeight,statusBarHeight}}" />
+  </block>
+  <block wx:elif="{{template == '1player'}}">
+    <template is='1playertemplate' data="{{pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, enableCamera, muted, debug, members, creator, isCaster, presenter, audience, autoplay, playerMutedStatus, playerVideoStatus,roomName,headerHeight,statusBarHeight}}" />
+  </block>
+</view>

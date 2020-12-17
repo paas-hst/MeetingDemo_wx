@@ -1,0 +1,17 @@
+{
+  "name": "HstPaaSDemo",
+  "version": "2.0.0",
+  "description": "好视通云通信Demo",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hst-wx-rtc-engine": "^2.0.5"
+  }
+}

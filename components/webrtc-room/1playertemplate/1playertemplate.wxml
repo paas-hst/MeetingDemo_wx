@@ -1,0 +1,42 @@
+<template name="1playertemplate">
+  <view class="player1 videoview">
+    <view class="player-box">
+      <view class="player-item" wx:for="{{members}}" wx:key="userID">
+        <live-player 
+          id="{{item.userID}}" 
+          autoplay 
+          mode="RTC" 
+          wx:if="{{item.accelerateURL}}" 
+          object-fit="contain" 
+          min-cache="0.1" 
+          max-cache="0.3" 
+          src="{{item.accelerateURL}}" 
+          debug="{{debug}}" 
+          background-mute="{{true}}" 
+          bindstatechange="onPlay">
+        </live-player>
+      </view>
+    </view>
+    <view class="pusher-box">
+      <live-pusher 
+        id="rtcpusher" 
+        autopush
+        mode="RTC" 
+        url="{{pushURL}}" 
+        aspect="{{aspect}}" 
+        min-bitrate="{{minBitrate}}" 
+        max-bitrate="{{maxBitrate}}" 
+        audio-quality="high" 
+        beauty="{{beauty}}" 
+        muted="{{muted}}" 
+        enable-camera="{{enableCamera}}" 
+        background-mute="{{true}}" 
+        debug="{{debug}}" 
+        bindstatechange="onPush" 
+        binderror="onError" 
+        waiting-image="https://www.fc18.com.cn/ymmopenapi/sgw/content/fileResource/560890228">
+        <slot name="float"></slot>
+      </live-pusher>
+    </view>
+  </view>
+</template>

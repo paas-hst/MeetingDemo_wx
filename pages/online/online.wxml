@@ -1,0 +1,47 @@
+<view class="container-box">
+  <view class="online-title">
+    在线用户列表
+  </view>
+  <scroll-view class="online-scroll" scroll-y="true">
+    <checkbox-group bindchange="onSelectUser">
+      <block wx:for="{{onlineUserList}}" wx:for-item="userItem" wx:key="userId">
+        <block wx:for="{{userItem.onlineInfo}}" wx:for-item="mutexItem" wx:key="mutexType">
+          <view class="online-item">
+            <view style="display:flex; align-items: center">
+              <view style="width:8vw">
+                <checkbox value="{{userItem.userId}}" disabled="{{userItem.userId==userId}}"></checkbox>
+              </view>
+              <view style="width:8vw; display:flex; align-items: flex-end">
+                <image class="user-image" mode="aspectFit" src="/resources/list/avatar.png" />
+              </view>
+              <view class="online-user-item">
+                <text>{{userItem.userId}}</text>
+                <text wx:if="{{userItem.userId==userId}}">（我）</text>
+              </view>
+              <view style="width:22vw;">
+                <text>{{mutexItem.mutexType}}</text>
+              </view>
+              <view style="width:20vw;">
+                <text>在线</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </checkbox-group>
+  </scroll-view> 
+  <form bindsubmit="joinGroup" class="online-form">
+    <view class="section" style="margin-top: 30px">
+      <input 
+        type="text" 
+        value="{{groupId}}" 
+        bindinput="bindGroupIdInput" 
+        placeholder="请输入Group ID"  
+        placeholder-class="placeholderStyle" 
+      />
+    </view>
+    <view class="btn-area section" style="margin-top: 20px">
+      <button form-type="submit" class="join-btn">加入分组</button>
+    </view>
+  </form>
+</view>

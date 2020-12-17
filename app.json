@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/webrtc-room-demo/login/login",
-    "pages/webrtc-room-demo/room/room"
+    "pages/login/login",
+    "pages/online/online",
+    "pages/room/room"
   ],
   "networkTimeout": {
     "request": 60000
