@@ -26,7 +26,7 @@ Page({
     isFrontCamera: false,   // 是否前置摄像头
     enableCamera: false,    // 打开/关闭本地摄像头
     autoplay: true,         // 自动播放控制
-    
+
     //--------------------------------------------------------------------------
     // 底部工具栏
     //--------------------------------------------------------------------------
@@ -64,6 +64,13 @@ Page({
     curBoardTotalPage: 1,   // 当前显示的白板总页数
     curBoardPageNo: 1,      // 当前显示的白板页码
 
+    // 绘图的颜色
+    color: ['#000000', '#737378', '#1973d8', '#30c5fc', '#19b53e', '#f5c813', '#f66823', '#f43b3b'],
+    curLineColor: '#000000',
+    isEdit: false,
+    colorShow: false,
+    eraserActive: false,
+
     //--------------------------------------------------------------------------
     // 其它
     //--------------------------------------------------------------------------
@@ -74,7 +81,9 @@ Page({
     newDistance: 0,         // 等比缩放模式下手势移动时两个手指之间距离
     startScale: false,      // 等比缩放模式下手势开始标志
     groupPushDone: false,   // 加入分组后的全量通知完成标识
-    active: false
+    active: false,
+
+    rotateAngle: 0,
   },
 
   /**
@@ -130,8 +139,8 @@ Page({
 
     // 默认等比完整显示白板
     app.hstRtcEngine.setWhiteBoardDisplayMode(
-      null, 
-      DisplayMode.DBWZ, 
+      null,
+      DisplayMode.DBWZ,
       null)
 
     this.setData({active: true})
@@ -241,6 +250,67 @@ Page({
     this.setData({beauty: this.data.beauty});
   },
 
+  changeEditStatus() {
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    if (this.data.eraserActive) {
+      this.setData({eraserActive: false})
+      whiteBoard.toolType('curve')
+    }
+    const isEdit = this.data.isEdit
+    this.setData({isEdit: !isEdit})
+
+    whiteBoard.edit(this.data.isEdit)
+  },
+
+  /**
+   * 设置橡皮擦
+   */
+  setEraser() {
+    if (this.data.isEdit) {
+      this.setData({isEdit: !this.data.isEdit});
+    }
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    if (this.data.eraserActive) {
+      this.setData({eraserActive: false})
+      whiteBoard.toolType('curve')
+      return
+    }
+    this.setData({eraserActive: true})
+    whiteBoard.toolType('eraser')
+  },
+
+  showColorList() {
+    const show = this.data.colorShow
+    this.setData({
+      colorShow: !show
+    })
+    console.log('colorShow', this.data.colorShow)
+  },
+
+  /**
+   * 设置颜色
+   */
+  selectColor(e) {
+    // 获取点击画笔的编号
+    let colorIndex = e.currentTarget.id;
+    const color = this.data.color[colorIndex]
+    // 修改默认的颜色编号
+    this.setData({
+      curLineColor: color
+    });
+    // 设置颜色
+    this.setLineColor(color)
+    this.showColorList()
+  },
+
+  setLineColor(color) {
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    whiteBoard.brushColor(color)
+  },
+
   /**
    * 开关麦克风
    */
@@ -280,7 +350,7 @@ Page({
 
   /**
    * 设置布局模板
-   * @param {*} name 
+   * @param {*} name
    */
   setTemplate(name) {
     if (name != this.data.template) {
@@ -320,7 +390,7 @@ Page({
 
   /**
    * 全量推送分组用户列表
-   * @param {} param 
+   * @param {} param
    */
   onGroupUserList(param) {
     let userList = this.data.groupUserList;
@@ -338,9 +408,9 @@ Page({
 
   /**
    * 用户加入分组处理
-   * @param {*} param 
+   * @param {*} param
    */
-  onUserJoinGroup(param) {    
+  onUserJoinGroup(param) {
     let userList = this.data.groupUserList;
     userList.push({
       userId: param,
@@ -355,7 +425,7 @@ Page({
 
   /**
    * 用户离开分组处理
-   * @param {*} param 
+   * @param {*} param
    */
   onUserLeaveGroup(param) {
     let userList = this.data.groupUserList;
@@ -372,7 +442,7 @@ Page({
 
   /**
    * 用户广播（音频、视频、屏幕共享）处理
-   * @param {*} param 
+   * @param {*} param
    */
   onPublishMedia(param) {
     let userList = this.data.groupUserList;
@@ -391,8 +461,8 @@ Page({
           user.board || (user.board = new Set())
           user.board.add(param.mediaId)
           app.hstRtcEngine.startReceiveMedia(
-            param.userId, 
-            param.mediaType, 
+            param.userId,
+            param.mediaType,
             param.mediaId).then(()=>{
             console.log("Start receive white board success.")
           }).catch(()=>{
@@ -427,7 +497,7 @@ Page({
 
   /**
    * SDK通知白板翻页
-   * @param {*} param 
+   * @param {*} param
    */
   onWhiteBoardCurPageChanged(param) {
     let tmpList = this.data.boardList
@@ -472,7 +542,7 @@ Page({
       self.setData({ // 初始化白板覆盖整个view
         canvasLeft: 0,
         canvasTop: 0,
-        canvasWidth: res[0].width, 
+        canvasWidth: res[0].width,
         canvasHeight: res[0].height
       })
       if (self.data.boardList.length > 0) { // 有白板则显示
@@ -480,7 +550,7 @@ Page({
         app.hstRtcEngine.setMediaRender(
           null,
           MediaType.WHITE_BOARD,
-          board.mediaId, 
+          board.mediaId,
           res[1].node,
           {
             parentWidth: res[0].width,
@@ -499,7 +569,7 @@ Page({
 
   /**
    * 收到远端媒体
-   * @param {*} param 
+   * @param {*} param
    */
   onRemoteMediaAdd(param) {
     console.log("onRemoteMediaAdd")
@@ -524,7 +594,7 @@ Page({
 
   /**
    * 停止广播白板处理
-   * @param {*} param 
+   * @param {*} param
    */
   onUnPubWhiteBoard(param) {
     let tmpList = this.data.boardList;
@@ -549,8 +619,8 @@ Page({
       param.mediaId);
 
     app.hstRtcEngine.unsetMediaRender(
-      null, 
-      MediaType.WHITE_BOARD, 
+      null,
+      MediaType.WHITE_BOARD,
       param.mediaId)
 
     console.log("Before board list length: " + this.data.boardList.length)
@@ -569,12 +639,12 @@ Page({
         curBoardTotalPage: 0
       })
       this.displayWhiteBoard()
-    } 
+    }
   },
 
   /**
    * 用户取消广播（音频、视频、屏幕共享）处理
-   * @param {*} param 
+   * @param {*} param
    */
   onUnPublishMedia(param) {
     let userList = this.data.groupUserList;
@@ -596,7 +666,7 @@ Page({
         } else {
           console.error("Unknown media type: " + param.mediaType);
         }
-      } 
+      }
     }
     this.setData({groupUserList: userList});
     this.updateTemplate();
@@ -613,7 +683,7 @@ Page({
 
   /**
    * 保存待发送消息
-   * @param {*} e 
+   * @param {*} e
    */
   bindSendMsgInput(e) {
     this.setData({sendMsg: e.detail.value});
@@ -621,7 +691,7 @@ Page({
 
   /**
    * 发送分组消息处理，暂未实现私聊
-   * @param {*} e 
+   * @param {*} e
    */
   sendGroupMsg(e) {
     if (!this.data.sendMsg) {
@@ -654,9 +724,9 @@ Page({
 
   /**
    * 收到分组消息处理
-   * @param {*} param 
+   * @param {*} param
    */
-  onRecvGroupMsg(param) {    
+  onRecvGroupMsg(param) {
     let msgList = this.data.groupMsgList;
     msgList.push({
       srcUserId: param.srcUserId,
@@ -670,9 +740,9 @@ Page({
 
   /**
    * 收到用户消息处理
-   * @param {*} param 
+   * @param {*} param
    */
-  onRecvUserMsg(param) {    
+  onRecvUserMsg(param) {
     let msgList = this.data.groupMsgList;
     msgList.push({
       srcUserId: param.srcUserId,
@@ -687,7 +757,7 @@ Page({
   /**
    * 直接隐藏canvas的父节点，无法使canvas隐藏，这里通过设置canvas
    * 到屏幕区域外，使得canvas隐藏，但测试发现，还需要配合wx:if
-   * @param {*} value 
+   * @param {*} value
    */
   setSelectWhiteBoard(value) {
     if (value) {
@@ -715,6 +785,12 @@ Page({
   showVideo() {
     this.hideAllPanels()
     this.setData({selectVideo: true});
+  },
+
+  createWhiteBoard() {
+    app.hstRtcEngine.createWhiteBoard({
+      board_name: '测试'
+    })
   },
 
   /**
@@ -762,8 +838,8 @@ Page({
       // 先取消渲染上一个白板
       let oldIndex = this.data.curBoardIndex;
       app.hstRtcEngine.unsetMediaRender(
-        null, 
-        MediaType.WHITE_BOARD, 
+        null,
+        MediaType.WHITE_BOARD,
         this.data.boardList[oldIndex].mediaId
       );
 
@@ -833,7 +909,7 @@ Page({
 
   /**
    * 手指触摸开始
-   * @param {*} e 
+   * @param {*} e
    */
   onCanvasTouchStart(e) {
     if (this.data.selectMode == "等比缩放") {
@@ -847,17 +923,22 @@ Page({
         })
       }
     }
+
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    whiteBoard.startPainting(e)
   },
 
   /**
    * 手指触摸移动
-   * @param {*} e 
+   * @param {*} e
    */
   onCanvasTouchMove(e) {
-    if (this.data.selectMode != "等比缩放" || !this.data.startScale) {
-      return
-    }
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    whiteBoard.painting(e)
 
+    // 缩放
     if (e.touches.length == 2) {
       let xMove = e.touches[1].x - e.touches[0].x;
       let yMove = e.touches[1].y - e.touches[0].y;
@@ -873,7 +954,7 @@ Page({
 
   /**
    * 手指触摸结束
-   * @param {*} e 
+   * @param {*} e
    */
   onCanvasTouchEnd(e) {
     if (e.touches.length != 2 && this.data.startScale) {
@@ -887,13 +968,80 @@ Page({
       )
       this.setData({startScale: false})
     }
+
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    const whiteBoard = app.hstRtcEngine.getWhiteBoard(curWhiteBoardId)
+    whiteBoard.stopPainting(e)
   },
 
   /**
    * 选择消息发送对象
-   * @param {*} e 
+   * @param {*} e
    */
   onSelectUser(e) {
     this.setData({curChatUser: e.detail.id})
-  }
+  },
+
+  rotateCanvas() {
+    let rotateAngle = this.data.rotateAngle
+    if (rotateAngle >= 270) {
+      rotateAngle = 0
+    } else {
+      rotateAngle += 90
+    }
+    this.setData({rotateAngle: rotateAngle})
+    const curWhiteBoardId = this.data.boardList[this.data.curBoardIndex].mediaId
+    app.hstRtcEngine.rotateWhiteBoard(this.data.rotateAngle, curWhiteBoardId)
+  },
+
+  generateGuid() {
+    const S4 = function() {
+      return (((1+Math.random())*0x10000)|0).toString(16).substring(1)
+    }
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4())
+  },
+
+  // 上传照片
+  uploadImg() {
+    wx.chooseMessageFile({
+      count: 1,
+      success: (res)=> {
+        console.log('res', res)
+        const fileInfo = res.tempFiles[0]
+        console.log('fileInfo', fileInfo)
+        app.hstRtcEngine.startUpload({
+          Guid: `${this.generateGuid()}`,
+          file_name: fileInfo.name,
+          file_size: fileInfo.size,
+          file: fileInfo.path,
+          onStartUpload: () => {
+            wx.showToast({
+              title: '正在上传',
+              icon: 'none',
+              duration: 2000
+            })
+          },
+          onUploadSuccess: (params) => {
+            wx.showToast({
+              title: '上传成功',
+              icon: 'none',
+              duration: 2000
+            })
+            let object = {
+              board_name:  params.board_name,
+              board_type: 1,
+              convert_file_path: params.convert_file_path,
+              file_path: params.file_path,
+              width: params.width,
+              height: params.height,
+              page: params.page
+            }
+            app.hstRtcEngine.createWhiteBoard(object)
+            this.showWhiteBoard()
+          },
+          onFailed: () => {}
+        })
+      }
+    })
+  },
 })

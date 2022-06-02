@@ -1,4 +1,4 @@
-const HstWxRtcEngine = require("./lib/HstWxRtcEngine")
+const HstWxRtcEngine = require("./lib/HstWxRtcEngine-2.1.0")
 
 //app.js
 App({
@@ -56,7 +56,7 @@ App({
           duration: 2500
         });
       }
-    })    
+    })
   },
 
   /**
@@ -67,7 +67,11 @@ App({
 
     // 创建RTC引擎
     this.hstRtcEngine = new HstWxRtcEngine();
-    this.hstRtcEngine.init().then(()=>{
+    this.hstRtcEngine.init({
+      txRoomUrl: 'https://fspwxlite.hst.com:443',
+      appId: '925aa51ebf829d49fc98b2fca5d963bc',
+      isPass: true
+    }).then(()=>{
       console.log("Init rtc engine success.")
     }).catch(()=>{
       console.warn("Init rtc engine failed!")
@@ -83,7 +87,7 @@ App({
 
   // 好视通RTC引擎
   hstRtcEngine: null,
-  
+
   // 好视通相关数据
   hstData: {
     appId: null,

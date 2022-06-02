@@ -1,24 +1,24 @@
 <view class="container-box">
   <!-- 视频窗口 -->
   <view class="camera-box" hidden='{{!selectVideo}}'>
-    <webrtc-room 
-      id="webrtcroom" 
-      template="{{template}}" 
-      autoplay="{{autoplay}}" 
-      enableCamera="{{enableCamera}}" 
-      roomID="{{txRoomId}}" 
-      roomName="{{roomName}}" 
-      userID="{{serverUserId}}" 
-      roomCreator="{{roomCreator}}" 
-      userSig="{{userSig}}" 
-      sdkAppID="{{sdkAppId}}" 
-      accountType="{{accountType}}" 
-      privateMapKey="{{privateMapKey}}" 
-      beauty="{{beauty}}" 
-      muted="{{muted}}" 
-      debug="{{debug}}" 
-      bindRoomEvent="onRoomEvent" 
-      bindIMEvent="onIMEvent" 
+    <webrtc-room
+      id="webrtcroom"
+      template="{{template}}"
+      autoplay="{{autoplay}}"
+      enableCamera="{{enableCamera}}"
+      roomID="{{txRoomId}}"
+      roomName="{{roomName}}"
+      userID="{{serverUserId}}"
+      roomCreator="{{roomCreator}}"
+      userSig="{{userSig}}"
+      sdkAppID="{{sdkAppId}}"
+      accountType="{{accountType}}"
+      privateMapKey="{{privateMapKey}}"
+      beauty="{{beauty}}"
+      muted="{{muted}}"
+      debug="{{debug}}"
+      bindRoomEvent="onRoomEvent"
+      bindIMEvent="onIMEvent"
       enableIM="{{false}}">
     </webrtc-room>
   </view>
@@ -42,16 +42,36 @@
         <button type="default" class="board-switch" bindtap="onNextWhiteBoard">切换</button>
       </view>
     </view>
-    <scroll-view wx:if='{{selectWhiteBoard}}' id="canvas-view" class="board-content" scroll-y="true" scroll-x="true">
-      <canvas 
-        id="my-canvas" 
+    <scroll-view wx:if='{{selectWhiteBoard}}' id="canvas-view" class="board-content" scroll-y="true" scroll-x="true" style="transform: rotate({{ rotateAngle }}deg)">
+      <canvas
+        id="my-canvas"
         type="2d"
-        bindtouchstart="onCanvasTouchStart" 
-        bindtouchmove="onCanvasTouchMove" 
-        bindtouchend="onCanvasTouchEnd" 
+        bindtouchstart="onCanvasTouchStart"
+        bindtouchmove="onCanvasTouchMove"
+        bindtouchend="onCanvasTouchEnd"
         style="background-color:white; width:{{canvasWidth}}px; height:{{canvasHeight}}px; left:{{canvasLeft}}px; top:{{canvasTop}}px">
       </canvas>
     </scroll-view>
+    <view class="tool-bar">
+      <view class="create-btnn" bindtap="createWhiteBoard">
+        <text>创建白板</text>
+      </view>
+      <view class="edit-btn" style="background-color:{{isEdit ? '#007aff' : '#eee'}}" bindtap="changeEditStatus">
+        <text>笔</text>
+      </view>
+      <view class="eraser-btn" style="background-color:{{eraserActive ? '#007aff' : '#eee'}}" bindtap="setEraser">
+        橡皮擦
+      </view>
+      <view class="rotate-btn" bindtap="rotateCanvas">
+        旋转
+      </view>
+      <view class="color-btn" bindtap="showColorList">
+        颜色
+        <view wx:if="{{colorShow}}" class="color-list">
+          <view class="color-item" wx:for="{{color}}" style="background:{{item}}" id="{{index}}" wx:key="item" catchtap="selectColor"></view>
+        </view>
+      </view>
+    </view>
     <view class="board-footer">
       <text class="board-footer-text" wx:if="{{boardList.length > 0}}">第{{curBoardPageNo}}页/共{{curBoardTotalPage}}页 | 第{{curBoardIndex + 1}}个/共{{totalBoardCount}}个</text>
     </view>
@@ -67,37 +87,37 @@
           </view>
           <view style="display:flex">
             <view>
-              <image 
-                class="group-user-media" 
-                mode="aspectFit" 
-                src="/resources/room/{{user.audio ? 'pub-aud.png' : 'unpub-aud.png'}}" 
+              <image
+                class="group-user-media"
+                mode="aspectFit"
+                src="/resources/room/{{user.audio ? 'pub-aud.png' : 'unpub-aud.png'}}"
               />
             </view>
             <view>
-              <image 
-                class="group-user-media" 
-                mode="aspectFit" 
-                src="/resources/room/{{user.video ? 'pub-cam.png' : 'unpub-cam.png'}}" 
+              <image
+                class="group-user-media"
+                mode="aspectFit"
+                src="/resources/room/{{user.video ? 'pub-cam.png' : 'unpub-cam.png'}}"
               />
             </view>
             <view>
-              <image 
-                class="group-user-media" 
-                mode="aspectFit" 
-                src="/resources/room/{{user.share ? 'pub-share.png' : 'unpub-share.png'}}" 
+              <image
+                class="group-user-media"
+                mode="aspectFit"
+                src="/resources/room/{{user.share ? 'pub-share.png' : 'unpub-share.png'}}"
               />
             </view>
             <view>
-              <image 
-                class="group-user-media" 
-                mode="aspectFit" 
-                src="/resources/room/{{user.board ? 'pub-board.png' : 'unpub-board.png'}}" 
+              <image
+                class="group-user-media"
+                mode="aspectFit"
+                src="/resources/room/{{user.board ? 'pub-board.png' : 'unpub-board.png'}}"
               />
             </view>
           </view>
         </view>
       </block>
-    </scroll-view> 
+    </scroll-view>
   </view>
   <!-- 聊天窗口 -->
   <view hidden='{{!selectChatMsg}}' style="height: 92vh">
@@ -108,7 +128,7 @@
           <view wx:if='{{item.srcUserId != userId}}' id='msg-{{index}}' class="left-msg-view">
             <view>
               <image class="left-msg-image" src='/resources/list/avatar.png'></image>
-            </view>            
+            </view>
             <view class='left-msg-content'>
               <block wx:if="{{item.dstUserId != 'all'}}">
                 <view>{{item.time}} {{item.srcUserId}} 对 我 说：</view>
@@ -170,6 +190,10 @@
     <view class="section {{selectChatMsg ? 'active' : ''}}" bindtap="showChatMsg">
       <image src="/resources/room/{{selectChatMsg ? 'talk' : 'talk-gray'}}.png" />
       <text>聊天</text>
+    </view>
+    <view class="section" bindtap="uploadImg">
+      <image src="/resources/room/share-gray.png" />
+      <text>上传</text>
     </view>
   </view>
 </view>

@@ -72,7 +72,7 @@ Page({
     if (!self.data.userId) {
       wx.showToast({title: '请输入User ID', icon: 'none', duration: 2000});
       return
-    } 
+    }
 
     // 检查是否配置了App信息
     if (!self.data.appId || !self.data.appSecret) {
@@ -158,7 +158,7 @@ Page({
 
   /**
    * 保存App ID配置
-   * @param {*} e 
+   * @param {*} e
    */
   bindAppIDInput(e) {
     this.setData({appId: e.detail.value});
@@ -166,7 +166,7 @@ Page({
 
   /**
    * 保存App Secret配置
-   * @param {*} e 
+   * @param {*} e
    */
   bindAppSecretInput(e) {
     this.setData({appSecret: e.detail.value});
@@ -174,7 +174,7 @@ Page({
 
   /**
    * 保存输入的User ID
-   * @param {*} e 
+   * @param {*} e
    */
   bindUserIDInput(e) {
     this.setData({userId: e.detail.value});
@@ -182,7 +182,7 @@ Page({
 
   /**
    * 保存是否使用默认服务器配置开关
-   * @param {*} e 
+   * @param {*} e
    */
   bindSrvDefault(e) {
     this.setData({isSrvDefault: !this.data.isSrvDefault});
@@ -190,7 +190,7 @@ Page({
 
   /**
    * 保存是否使用默认APP配置开关
-   * @param {*} e 
+   * @param {*} e
    */
   bindAppDefault(e) {
     this.setData({isAppDefault: !this.data.isAppDefault});
@@ -198,7 +198,7 @@ Page({
 
   /**
    * 保存服务器配置
-   * @param {*} e 
+   * @param {*} e
    */
   bindAddressInput(e) {
     this.setData({srvAddress: e.detail.value});
@@ -206,7 +206,7 @@ Page({
 
   /**
    * 保存输入的用户昵称
-   * @param {*} e 
+   * @param {*} e
    */
   bindNickNameInput(e) {
     this.setData({nickName: e.detail.value});

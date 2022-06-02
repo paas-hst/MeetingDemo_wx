@@ -104,89 +104,127 @@ input {
 }
 
 .board-title {
-  height:6vh; 
-  width:100%; 
-  background-color:white; 
-  display:flex; 
-  justify-content: space-between; 
-  align-items: center; 
+  height:6vh;
+  width:100%;
+  background-color:white;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid rgb(235,235,235);
   font-size: 30rpx
 }
 
 .board-name {
-  width: 50vw; 
-  word-break: break-all; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  width: 50vw;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap
 }
 
 .board-content {
-  width:100vw; 
-  height:80vh; 
+  width: 100vw;
+  height: 65vh;
   background-color:black
 }
 
+.tool-bar {
+  width:100%;
+  height: 75rpx;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.create-btn, .edit-btn, .eraser-btn, .color-btn, .rotate-btn {
+  position: relative;
+  width: 100rpx;
+  height: 50rpx;
+  background: #EEE;
+  border-radius: 5rpx;
+  color: #000;
+  text-align: center;
+  line-height: 50rpx;
+}
+
+.color-list {
+  position: absolute;
+  top: -150rpx;
+  left: -90rpx;
+  width: 280rpx;
+  background: #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.color-item {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  margin: 10rpx;
+}
+
 .board-footer {
-  height:6vh; 
-  width:100%; 
-  background-color:white; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  height:6vh;
+  width:100%;
+  background-color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-top: 1px solid rgb(235,235,235)
 }
 
 .board-footer-text {
-  font-size: 30rpx; 
+  font-size: 30rpx;
   margin: 0 auto
 }
 
 .board-name {
-  font-size: 30rpx; 
+  font-size: 30rpx;
   padding-left:4px
 }
 
 .board-switch {
-  margin-left:2px; 
-  margin-right:2px; 
-  height:4vh; 
+  margin-left:2px;
+  margin-right:2px;
+  height:4vh;
   font-size: 20rpx;
   line-height: 4vh;
 }
 
 .group-user-scroll {
-  height:300px; 
-  width: 640rpx; 
-  margin: 0px auto; 
+  height:300px;
+  width: 640rpx;
+  margin: 0px auto;
   padding-top: 20px
 }
 
 .group-user-icon {
-  height:24px; 
+  height:24px;
   width:24px
 }
 
 .group-user-media {
-  height:24px; 
-  width:24px; 
+  height:24px;
+  width:24px;
   margin:0 1px 0 1px
 }
 
 .msg-scroll {
-  height:84vh; 
+  height:84vh;
   background-color:rgba(235, 238, 242, 1)
 }
 
 .left-msg-view {
-  display: flex; 
+  display: flex;
   padding: 2vw 11vw 2vw 2vw;
 }
 
 .left-msg-image {
-  width: 11vw; 
-  height: 11vw; 
+  width: 11vw;
+  height: 11vw;
   border-radius: 10rpx;
 }
 
@@ -204,25 +242,25 @@ input {
 }
 
 .right-msg-view {
-  display: flex; 
-  justify-content: flex-end; 
+  display: flex;
+  justify-content: flex-end;
   padding: 2vw 2vw 2vw 11vw;
 }
 
 .right-msg-image {
-  width: 11vw; 
-  height: 11vw; 
+  width: 11vw;
+  height: 11vw;
   border-radius: 10rpx;
 }
 
 .send-msg-btn {
-  height:5vh; 
-  line-height:5vh; 
-  font-size:30rpx; 
-  width:20vw; 
+  height:5vh;
+  line-height:5vh;
+  font-size:30rpx;
+  width:20vw;
   margin-left: 5px;
   margin-right: 5px;
-  background: rgba(106, 125, 254, 1); 
+  background: rgba(106, 125, 254, 1);
   color:white
 }
 
@@ -245,7 +283,7 @@ input {
   border: 1px solid rgb(235,235,235);
   border-radius: 5px;
   position: relative;
-  font-size: 20rpx; 
+  font-size: 20rpx;
   width: 50px;
 }
 
@@ -256,7 +294,7 @@ input {
   align-items: center;
   justify-content: center;
   /* padding: 0rpx; */
-  height: 4vh; 
+  height: 4vh;
   line-height: 4vh;
 }
 
@@ -278,7 +316,7 @@ input {
 }
 
 .chat-select-wrapper {
-  width: 30vw; 
-  margin-left: 5px; 
-  word-wrap: none; 
+  width: 30vw;
+  margin-left: 5px;
+  word-wrap: none;
 }
